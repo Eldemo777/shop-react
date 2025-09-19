@@ -1,0 +1,23 @@
+import { Link } from "react-router-dom"
+
+export const ProductCard = ({ product }) => {
+    return <div>className="bg-wheite rounded shadov p-4"
+        <img
+         src={product.image} 
+         alt={product.title}
+         className="w-full h-48 object-cover rounded"
+          />
+        <h3 className="mt-2 front-bold text-lg">{product.title} 
+            </h3>
+            <p className="text-gray-700">{product.price} $</p>
+       <Link>
+        to={"/product/${product.price}"}
+       classname="mt-4 inline-block bg-blue-500 text-white
+       px4 py-2 rounted hover:bg-blur-600"
+       </Link>
+       to={"/product/${product.price}"}
+       classname="mt-4 inline-block bg-blue-500 text-white
+       px4 py-2 rounted hover:bg-blur-600"
+       </div> 
+        
+}
