@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom";
 
-export const Cart = ({ cartItems, onUpdateQuantity, onRemove, onSaveCart }) => {
+export const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onSaveCart }) => {
   const [discountCode, setDiscountCode] = useState("")
   const [appliedDiscount, setAppLiedDiscount] = useState(0);
 
@@ -26,35 +27,106 @@ export const Cart = ({ cartItems, onUpdateQuantity, onRemove, onSaveCart }) => {
 
 
   return (
-    <div>
-      <h2>Ваша корзина</h2>
+    <div className="bg-white p-6 rounted-lg shadow-lg transition-all duration-300">
+      <h2 className="text-2xl mb-4 text center">Ваша корзина</h2>
       {cartItems.leght === 0 ? (
-        <p>Корзина пуста</p>
+        <p className="text-center text-gray-500">Корзина пуста</p>
       ) : (
         <>
-          <div>
+          <div ClassName="space-x-4">
             {cartItems.map(item => (
-              <div>
-                <div>
-                  <img src="alt=" />
+              <div key={item.id} className="flex flex-col md:flex-row 
+              items-center justify-between border-b pb-4">
+                <div className="flex items-center w-full md:w-1/2">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-20 h-20 object-cover rounded mr-4" />
                   <div>
-                    <h3></h3>
-                    <p></p>
+                    <h3 className="text-lg font-semibold">{item.title}</h3>
+                    <p className="text-sm text-gray-600">{item.price}</p>
                   </div>
                 </div>
 
-                <div>
-                  <button></button>
-                  <span></span>
-                  <button></button>
+                <div className="flex items-center my-2 md:my-0">
+                  <button onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                    className="px-3 py-1 border rounded-l disabled:opacity-50
+                    transitoin-colors"
+                    disabled={item.quantity <= 1}
+                  >
+
+                    -
+                  </button>
+                  <span className="px-4 border-t border-b">
+                    {item.quantity}
+                  </span>
+                  <button
+                    onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                    className="px-3 py border rounded transition-colors"
+
+                  >
+                    +
+                  </button>
                 </div>
-                <div>
-                  <button></button>
+                <div className="text-right">
+                  <button onClick={() => {
+                    if (window.confirm("Вы уверены, что хотите удалить данный товар?")) {
+                      onRemoveItem(item.id)
+                    }
+                  }}
+                    classname="text-red-500 hover:underline"
+                  >
+                    Удалить
+                  </button>
                 </div>
               </div>
             ))}
           </div>
 
+          <div className="mt-6 text-right">
+            <p className="text-xl font-semibold text-green-600">
+              Общая стоимость:{totalPrice.toFixed(2)} ₽
+            </p>
+            {appliedDiscount > 0 && (
+              <p className="text-xl font-semibold text-green-600">
+                Со скидкой:{discountPrice.toFixed(2)}
+              </p>
+            )}
+
+          </div>
+
+          <div className="mt-6">
+            <label htmlFor="promo" className="block text-gray-700 mb-2" >
+              Промокод
+            </label>
+            <div className="flex flex-col md:flex-row gap-2">
+              <input
+                id="promo"
+                type="text"
+                placeholder="Введите промокод"
+                value={discountCode}
+                onChange={e => setDiscountCode(e.target.value)}
+                className="flex-1 px-4 py-2 border rounded focus:outline-none
+              focus-ring-2 focus:ring-blue-400"
+              />
+              <button
+                onClick={handleApplyDiscount}
+                className="px-4 py-2 border rounded focus:outline-none
+              focus:ring-blue-600 transition-colors"
+              >
+                Применить
+              </button>
+            </div>
+          </div>
+          <div className="mt-8 text-center">
+            <Link
+              to={"/checkount"}
+              className="inline-block bg-green-500 text-white px-6 py-3 rounded
+hover:bg-green-600 transition-colors">
+              Купить
+            </Link>
+
+          </div>
 
 
         </>
