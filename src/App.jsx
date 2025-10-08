@@ -6,7 +6,8 @@ import { Header } from './components/Header'
 import { CartPage } from './pages/CartPage'
 import { Home } from './pages/Home'
 import { ProductDetail } from './pages/ProductDetail'
-
+import { PurshareHistory } from './pages/PurshareHistory'
+import { CheckoutPage } from './pages/CheckoutPage'
 export const App = () => {
 	const [cartItems, setCartItems] = useState([])
 
@@ -60,6 +61,13 @@ export const App = () => {
 						path='/product/:id'
 						element={<ProductDetail addToCart={addToCart} />}
 					/>
+					<Route
+					path='/product/:id'
+					element={<CheckoutPage cartItems=
+						{cartItems}/>}
+					/>
+					<Route patch='/orders' element=
+					{<PurshareHistory />} />
 				</Routes>
 			</main>
 			<Footer />

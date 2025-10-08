@@ -11,9 +11,11 @@ export const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onSaveCart }) 
   const handleApplyDiscount = () => {
     if (discountCode.trim().toUpperCase() === "SALE2025") {
       setAppLiedDiscount(0.1)
+      localStorage.setItem('discountCode', 'SALE2025')
     } else {
       setAppLiedDiscount(0)
       alert("Не правильно жмал,повтори")
+      localStorage.removeItem('discountCode', 'SALE2025')
     }
 
   }
