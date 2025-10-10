@@ -4,12 +4,16 @@ import './App.css'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { CartPage } from './pages/CartPage'
+import { CheckoutPage } from './pages/CheckoutPage'
 import { Home } from './pages/Home'
 import { ProductDetail } from './pages/ProductDetail'
 import { PurshareHistory } from './pages/PurshareHistory'
-import { CheckoutPage } from './pages/CheckoutPage'
+
 export const App = () => {
-	const [cartItems, setCartItems] = useState([])
+	const [cartItems, setCartItems] = useState(() => {
+		const savedCart = localStorage.getItem('CartItems')
+		return savedCart ? JSON.parse(savedCart) : []
+	})
 
 	const addToCart = product => {
 		setCartItems(prev => {
@@ -26,11 +30,11 @@ export const App = () => {
 	}
 
 	const handleUpdateQuantity = (id, newQuantity) => {
-		setCartItems(prev => {
-			prev.map(item => {
+		setCartItems(prev =>
+			prev.map(item =>
 				item.id === id ? { ...item, quantity: newQuantity } : item
-			})
-		})
+			)
+		)
 	}
 
 	const handleRemoveItem = id => {
@@ -62,12 +66,12 @@ export const App = () => {
 						element={<ProductDetail addToCart={addToCart} />}
 					/>
 					<Route
-					path='/product/:id'
-					element={<CheckoutPage cartItems=
-						{cartItems}/>}
+						path='/checkout'
+						element={
+							<CheckoutPage cartItems={cartItems} clearCart={clearCart} />
+						}
 					/>
-					<Route patch='/orders' element=
-					{<PurshareHistory />} />
+					<Route path='/orders' element={<PurshareHistory />} />
 				</Routes>
 			</main>
 			<Footer />
